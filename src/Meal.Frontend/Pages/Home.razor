@@ -1,0 +1,109 @@
+﻿@page "/"
+@inject MealApiClient MealApiClient
+
+<PageTitle>Home</PageTitle>
+
+<section class="dashboard">
+    <header class="panel panel-header">
+        <p class="label-caps">MISSION CONTROL</p>
+        <h1>Meal Agent</h1>
+        <p>
+            Informe seus ingredientes e o tempo disponível.
+            A IA vai montar uma receita para caber exatamente no seu intervalo.
+        </p>
+    </header>
+
+    <section class="panel panel-form">
+        <label class="label-caps" for="ingredients-input">Ingredientes</label>
+        <textarea id="ingredients-input"
+                  @bind="IngredientsInput"
+                  placeholder="Ex.: frango, arroz, alho, cebola"
+                  rows="5"></textarea>
+
+        <label class="label-caps" for="minutes-input">Tempo disponível (minutos)</label>
+        <input id="minutes-input" type="number" min="1" @bind="AvailableMinutes" />
+
+        <button class="btn-primary" @onclick="SuggestRecipeAsync" disabled="@IsLoading">
+            @(IsLoading ? "CALCULANDO..." : "SUGERIR RECEITA")
+        </button>
+
+        @if (!string.IsNullOrWhiteSpace(ErrorMessage))
+        {
+            <p class="message-error">@ErrorMessage</p>
+        }
+    </section>
+
+    @if (SuggestedRecipe is not null)
+    {
+        <section class="panel panel-result">
+            <p class="label-caps">RECEITA SUGERIDA</p>
+            <p class="time-hint">Tempo considerado: @SuggestedRecipe.AvailableMinutes min</p>
+            <div class="recipe-text">@SuggestedRecipe.RecipeText</div>
+        </section>
+    }
+</section>
+
+@code {
+    private string IngredientsInput { get; set; } = string.Empty;
+
+    private int AvailableMinutes { get; set; } = 30;
+
+    private bool IsLoading { get; set; }
+
+    private string? ErrorMessage { get; set; }
+
+    private RecipeSuggestionResponse? SuggestedRecipe { get; set; }
+
+    private async Task SuggestRecipeAsync()
+    {
+        ErrorMessage = null;
+        SuggestedRecipe = null;
+
+        if (AvailableMinutes <= 0)
+        {
+            ErrorMessage = "Informe um tempo disponível maior que zero.";
+            return;
+        }
+
+        var ingredients = ParseIngredients(IngredientsInput);
+
+        if (ingredients.Count == 0)
+        {
+            ErrorMessage = "Informe ao menos um ingrediente.";
+            return;
+        }
+
+        IsLoading = true;
+
+        try
+        {
+            SuggestedRecipe = await MealApiClient.SuggestRecipeAsync(
+                new RecipeSuggestionRequest
+                {
+                    Ingredients = ingredients,
+                    AvailableMinutes = AvailableMinutes
+                });
+        }
+        catch (HttpRequestException exception)
+        {
+            ErrorMessage = $"Falha ao consultar a API: {exception.Message}";
+        }
+        catch (InvalidOperationException exception)
+        {
+            ErrorMessage = exception.Message;
+        }
+        finally
+        {
+            IsLoading = false;
+        }
+    }
+
+    private static List<string> ParseIngredients(string rawIngredients)
+    {
+        return rawIngredients
+            .Split([',', ';', '\n'], StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+            .Where(value => !string.IsNullOrWhiteSpace(value))
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .ToList();
+    }
+}

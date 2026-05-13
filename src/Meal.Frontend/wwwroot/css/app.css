@@ -1,0 +1,135 @@
+:root {
+    --surface: #121315;
+    --surface-container: #1f2022;
+    --surface-container-high: #292a2c;
+    --on-surface: #e3e2e4;
+    --on-surface-variant: #c3c6ce;
+    --primary: #b0c9ea;
+    --secondary: #dac49c;
+    --accent: #84dd15;
+    --alert: #ffb4ab;
+    --outline: #8d9198;
+    --outline-variant: #43474d;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    min-height: 100%;
+    background: radial-gradient(circle at top, #1a2433 0%, var(--surface) 55%);
+    color: var(--on-surface);
+    font-family: Manrope, "Segoe UI", sans-serif;
+}
+
+h1,
+h2,
+h3 {
+    margin: 0;
+    font-family: "Space Grotesk", "Segoe UI", sans-serif;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+}
+
+p {
+    margin: 0;
+}
+
+.dashboard {
+    margin: 0 auto;
+    width: min(960px, 100%);
+    display: grid;
+    gap: 16px;
+}
+
+.panel {
+    border: 1px solid var(--secondary);
+    background: var(--surface-container);
+    padding: 20px;
+}
+
+.panel-header {
+    display: grid;
+    gap: 12px;
+    border-color: var(--primary);
+}
+
+.panel-header h1 {
+    font-size: clamp(2rem, 4vw, 3rem);
+}
+
+.panel-form {
+    display: grid;
+    gap: 12px;
+}
+
+.panel-form textarea,
+.panel-form input {
+    width: 100%;
+    border: 1px solid var(--outline-variant);
+    background: #0d0e10;
+    color: var(--on-surface);
+    padding: 12px;
+    font-size: 1rem;
+    border-radius: 0;
+}
+
+.panel-form textarea:focus,
+.panel-form input:focus {
+    outline: 1px solid var(--accent);
+}
+
+.btn-primary {
+    border: 1px solid #93000a;
+    background: #93000a;
+    color: #ffdad6;
+    font-family: "Space Grotesk", "Segoe UI", sans-serif;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 12px 16px;
+    cursor: pointer;
+}
+
+.btn-primary:hover:not(:disabled) {
+    box-shadow: 0 0 8px #93000a;
+}
+
+.btn-primary:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.label-caps {
+    color: var(--secondary);
+    font-family: "Space Grotesk", "Segoe UI", sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+}
+
+.panel-result {
+    display: grid;
+    gap: 8px;
+    border-color: var(--accent);
+    background: var(--surface-container-high);
+}
+
+.time-hint {
+    color: var(--on-surface-variant);
+    font-size: 0.9rem;
+}
+
+.recipe-text {
+    margin-top: 4px;
+    line-height: 1.6;
+    white-space: pre-wrap;
+}
+
+.message-error {
+    color: var(--alert);
+    font-weight: 600;
+}

@@ -1,46 +1,61 @@
-<img width="1280" height="630" alt="banner" src="https://github.com/user-attachments/assets/eb2f345f-7b28-41d0-b374-6336dc8f8f75" />
+## 🚀 May The Fourth 2026 - Desafio Meal
 
-## 🚀 May The Fourth 2026 - Desafio 1
+Aplicação FullStack com IA que recebe ingredientes e tempo disponível (em minutos) e retorna uma receita sugerida pela IA.
 
-Oi, eu sou o [seu nome aqui] e este é o espaço onde compartilho minha jornada de aprendizado durante o desafio **May The Fourth 2026**, realizado pelo [balta.io](https://balta.io). 👻
+## Stack utilizada
 
-Aqui você vai encontrar projetos, exercícios e códigos que estou desenvolvendo durante o desafio.
+- .NET 10
+- Microsoft Agent Framework 1.5.0 (GA)
+- Blazor WebAssembly
+- OpenAI
 
-### Sobre este desafio
-Utilizar a IA cruza sua lista de ingredientes com o tempo livre na sua agenda (API) e sugerir receitas que se encaixam exatamente no buraco entre suas reuniões ou tarefas.
+## Estrutura da solução
 
-#### Nível 1 - Console Application
-- Projeto do tipo Console App simples
-- Separar os agentes em markdowns na pasta agentes
-- Criar os agentes (Arquivos .cs) separados
+- `src/Meal.Api`: endpoint HTTP para sugestão de receita
+- `src/Meal.Ai`: agente de receita (classe herdada de `AIAgent`)
+- `src/Meal.Core`: contratos de entrada e saída
+- `src/Meal.Application`: service layer e interfaces de abstração
+- `src/Meal.Infra`: implementação OpenAI + factory + DI
+- `src/Meal.Frontend`: interface Blazor WASM (tela principal)
+- `tests/Meal.Application.Tests`: testes de serviço de aplicação
+- `tests/Meal.Api.Tests`: testes do endpoint da API
 
-#### Nível 2 - API
-- Estruturar um projeto de IA
-  - Api, Ai, Core, Infra, Applicattion?
-- Expor um endpoint que recebe a entrada do usuário e retorna a receita
+## Fluxo da aplicação
 
-#### Nível 2 - Fullstack + IA
-- Estruturar um projeto de IA
-  - Api, Ai, Core, Infra, Applicattion?, Frontend (Blazor Wasm)
-- Expor um endpoint que recebe a entrada do usuário e retorna a receita
+1. O usuário informa os ingredientes e o tempo disponível.
+2. O frontend chama `POST /api/recipes/suggest`.
+3. A API usa o `RecipeSuggestionService`.
+4. O service cria um agente via Factory Pattern.
+5. O agente chama o modelo OpenAI e devolve a receita.
+6. O frontend exibe o resultado abaixo dos inputs.
 
-Neste processo eu aprendi:
-* ✅
+## Configuração
 
-## Bagde
-<img src="https://baltaio.blob.core.windows.net/static/images/v4/challenges/may-the-fourth-2026/rewards/meal/image.png" width="200" />
+Defina a chave da OpenAI de uma das formas:
 
-## Problema
---
+- Variável de ambiente `OPENAI_API_KEY`
+- `src/Meal.Api/appsettings.json` em `OpenAI:ApiKey`
 
-## Sobre o ay The Fourth 2026
-O desafio **ay The Fourth 2026** consiste em implementar agentes e inteligência artificial em cenários reais, resolvendo problemas do dia-a-dia com Microsoft Agent Framework, C# e .NET.
+Também é possível ajustar o modelo em `OpenAI:Model` (padrão: `gpt-4o-mini`).
 
-### Imersão - Microsoft Agents Framework
-https://www.youtube.com/watch?v=XkgjeBurtFw
+## Executando
 
-### Curso - Microsoft Agents Framework
-https://balta.io/cursos/fundamentos-do-microsoft-agent-framework
+### API
 
-### Veja meu progresso no desafio
-[Incluir link para o repositório central]
+```bash
+dotnet run --project .\src\Meal.Api\Meal.Api.csproj
+```
+
+### Frontend
+
+```bash
+dotnet run --project .\src\Meal.Frontend\Meal.Frontend.csproj
+```
+
+> O frontend usa `https://localhost:7111` como URL da API por padrão (`src/Meal.Frontend/wwwroot/appsettings.json`).
+
+## Testes
+
+```bash
+dotnet test .\Meal.slnx
+```

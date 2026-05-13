@@ -1,0 +1,14 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Meal.Ai/Meal.Ai.csproj" />
+    <Project Path="src/Meal.Api/Meal.Api.csproj" />
+    <Project Path="src/Meal.Application/Meal.Application.csproj" />
+    <Project Path="src/Meal.Core/Meal.Core.csproj" />
+    <Project Path="src/Meal.Frontend/Meal.Frontend.csproj" />
+    <Project Path="src/Meal.Infra/Meal.Infra.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Meal.Api.Tests/Meal.Api.Tests.csproj" />
+    <Project Path="tests/Meal.Application.Tests/Meal.Application.Tests.csproj" />
+  </Folder>
+</Solution>
