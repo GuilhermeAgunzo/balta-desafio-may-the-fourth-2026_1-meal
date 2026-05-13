@@ -2,6 +2,7 @@
   <Folder Name="/src/">
     <Project Path="src/Meal.Ai/Meal.Ai.csproj" />
     <Project Path="src/Meal.Api/Meal.Api.csproj" />
+    <Project Path="src/Meal.AppHost/Meal.AppHost.csproj" Id="77bbf97d-0da7-4d6a-83b7-089bfda761e1" />
     <Project Path="src/Meal.Application/Meal.Application.csproj" />
     <Project Path="src/Meal.Core/Meal.Core.csproj" />
     <Project Path="src/Meal.Frontend/Meal.Frontend.csproj" />

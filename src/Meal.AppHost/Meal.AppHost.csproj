@@ -1,0 +1,16 @@
+<Project Sdk="Aspire.AppHost.Sdk/13.1.0">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <UserSecretsId>a2d1fae4-32cf-43fb-b9b7-c204a0dd2002</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Meal.Api\Meal.Api.csproj" />
+    <ProjectReference Include="..\Meal.Frontend\Meal.Frontend.csproj" />
+  </ItemGroup>
+
+</Project>
